@@ -1,9 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f7fb 100%);
   color: #111111;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 img {
@@ -16,14 +24,46 @@ a {
   text-decoration: none;
 }
 
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 .container {
   width: min(1100px, 90%);
   margin: 0 auto;
 }
 
 .site-header {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.9);
   border-bottom: 1px solid #d9d9d9;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .nav-bar {
@@ -33,6 +73,7 @@ a {
   gap: 20px;
   padding: 18px 0;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .brand {
@@ -43,12 +84,16 @@ a {
 }
 
 .brand-mark {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: #111111;
   color: #ffffff;
-  padding: 6px 8px;
+  width: 32px;
+  height: 32px;
   margin-right: 8px;
   font-size: 14px;
+  border-radius: 8px;
 }
 
 .main-nav {
@@ -61,16 +106,32 @@ a {
 .main-nav a {
   color: #333333;
   font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  color: #000000;
 }
 
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 16px;
   border: 1px solid #111111;
   background: #111111;
   color: #ffffff;
   font-weight: 600;
   text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 999px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(17, 17, 17, 0.12);
 }
 
 .btn-secondary {
@@ -147,12 +208,20 @@ a {
 
 .mini-stats li {
   min-width: 100px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid #e8e8e8;
+  border-radius: 14px;
+  padding: 12px 14px;
 }
 
 .mini-stats strong {
   display: block;
   font-size: 1.5rem;
   margin-bottom: 2px;
+}
+
+.hero-visual {
+  position: relative;
 }
 
 .hero-visual img,
@@ -162,6 +231,8 @@ a {
   height: 420px;
   object-fit: cover;
   border: 1px solid #d9d9d9;
+  border-radius: 18px;
+  animation: floaty 5s ease-in-out infinite;
 }
 
 .feature-band {
@@ -183,10 +254,27 @@ a {
 .value-card,
 .contact-card,
 .contact-form,
-.product-card {
+.product-card,
+.testimonial-card,
+.benefit-box {
   background: #ffffff;
   border: 1px solid #d9d9d9;
   padding: 20px;
+  border-radius: 18px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-box:hover,
+.info-card:hover,
+.story-card:hover,
+.value-card:hover,
+.contact-card:hover,
+.contact-form:hover,
+.product-card:hover,
+.testimonial-card:hover,
+.benefit-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 25px rgba(17, 17, 17, 0.08);
 }
 
 .feature-box h3,
@@ -363,6 +451,7 @@ a {
   border: 1px solid #d9d9d9;
   font-weight: 700;
   margin-bottom: 8px;
+  border-radius: 10px;
 }
 
 .contact-grid {
@@ -382,6 +471,7 @@ textarea {
   color: #111111;
   font: inherit;
   box-sizing: border-box;
+  border-radius: 12px;
 }
 
 textarea {
@@ -406,6 +496,27 @@ textarea {
   padding-top: 60px;
 }
 
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  border-radius: 10px;
+  padding: 9px 10px;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  background: #111111;
+  border-radius: 10px;
+}
+
 @media (max-width: 768px) {
   .hero-grid,
   .showcase-grid,
@@ -415,6 +526,23 @@ textarea {
   .story-grid,
   .feature-grid {
     grid-template-columns: 1fr;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .main-nav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 12px;
+    border-top: 1px solid #d9d9d9;
+  }
+
+  .main-nav.open {
+    display: flex;
   }
 
   .nav-bar,
